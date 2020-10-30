@@ -1,0 +1,42 @@
+---
+- hosts: db
+  become: yes
+  tasks:
+          - name: Include variables
+            include_vars: vars.yml 
+            
+          - name: Install MariaDB packages
+            yum: name={{ item }} state=present
+            loop: [ 'mariadb', 'mariadb-server', 'MySQL-python' ]
+
+          - name: Disable firewall
+            service: name=firewalld state=stopped enabled=no
+
+          - name: Turn on MariaDB
+            service: name=mariadb state=started enabled=yes
+
+          - name: Set DB root password
+            mysql_user:
+                    login_host: 'localhost'
+                    login_user: 'root'
+                    login_password: ''
+                    name: 'root'
+                    password: '{{ mysql_root_password }}'
+                    state: present
+
+          - name: Make database for WordPress
+            mysql_db:
+                    name: "{{ mysql_db }}"
+                    state: present
+                    login_user: root
+                    login_password: "{{ mysql_root_password }}"
+
+          - name: DB User for WordPress
+            mysql_user:
+                    name: "{{ mysql_user }}"
+                    password: "{{ mysql_password }}"
+                    priv: "{{ mysql_db }}.*:ALL"
+                    state: present
+                    login_user: root
+                    login_password: "{{ mysql_root_password }}"
+

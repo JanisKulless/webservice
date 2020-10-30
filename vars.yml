@@ -1,0 +1,11 @@
+---
+php_modules: [ 'php', 'php-mysql', 'php-curl', 'php-gd', 'php-mbstring', 'php-xml', 'php-xmlrpc', 'php-soap', 'php-intl', 'php-zip' ]
+
+mysql_root_password: "12345"
+mysql_db: "wpdb"
+mysql_user: "wpuser"
+mysql_password: "12345mysql"
+
+http_host: "wordpress.server"
+http_conf: "wordpress.server.conf"
+http_port: "80"
