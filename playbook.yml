@@ -1,0 +1,18 @@
+---
+- hosts: app
+  gather_facts: False
+  become: true
+  vars_files:
+          - vars/default.yml
+  roles:
+          - apache
+          - php
+          - wordpress
+
+- hosts: db
+  gather_facts: False
+  become: true
+  vars_files:
+          - vars/default.yml
+  roles:
+          - mariadb

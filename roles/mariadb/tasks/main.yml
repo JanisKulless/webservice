@@ -1,6 +1,7 @@
 ---
 - hosts: db
   become: yes
+  
   tasks:
           - name: Include variables
             include_vars: vars.yml 
@@ -8,9 +9,6 @@
           - name: Install MariaDB packages
             yum: name={{ item }} state=present
             loop: [ 'mariadb', 'mariadb-server', 'MySQL-python' ]
-
-          - name: Disable firewall
-            service: name=firewalld state=stopped enabled=no
 
           - name: Turn on MariaDB
             service: name=mariadb state=started enabled=yes

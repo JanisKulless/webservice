@@ -1,0 +1,12 @@
+- name: Install EPEL
+  yum: name=epel-release.noarch state=latest
+
+- name: Install PHP Remi Repo
+  yum: name=http://rpms.remirepo.net/enterprise/remi-release-7.rpm update_cache=yes state=latest
+
+- name: Enable PHP Remi
+  yum: enablerepo=remi,remi-php56      
+
+- name: Install PHP extensions
+  yum: name={{ item }} update_cache=yes state=latest
+  loop: "{{ php_modules }}"
